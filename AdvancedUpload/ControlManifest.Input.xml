@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="ZenIT" constructor="AdvancedUpload" version="0.0.1" display-name-key="AdvancedUpload" description-key="AdvancedUpload description" control-type="standard">
+    <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
+    <property name="xFileNamesOut" display-name-key="fnout" description-key="fnout" of-type="Multiple" usage="output" required="false" />
+    <property name="xFileContentsOut" display-name-key="fcout" description-key="fcout" of-type="Multiple" usage="output" required="false" />
+    <property name="xFileContentTypesOut" display-name-key="fctout" description-key="fctout" of-type="Multiple" usage="output" required="false" />
+    <!-- 
+      Property node's of-type attribute can be of-type-group attribute. 
+      Example:
+      <type-group name="numbers">
+        <type>Whole.None</type>
+        <type>Currency</type>
+        <type>FP</type>
+        <type>Decimal</type>
+      </type-group>
+      <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type-group="numbers" usage="bound" required="true" />
+    -->
+    <resources>
+      <code path="index.ts" order="1"/>
+      <!-- UNCOMMENT TO ADD MORE RESOURCES
+      <css path="css/AdvancedUpload.css" order="1" />
+      <resx path="strings/AdvancedUpload.1033.resx" version="1.0.0" />
+      -->
+    </resources>
+    <!-- UNCOMMENT TO ENABLE THE SPECIFIED API
+    <feature-usage>
+      <uses-feature name="Device.captureAudio" required="true" />
+      <uses-feature name="Device.captureImage" required="true" />
+      <uses-feature name="Device.captureVideo" required="true" />
+      <uses-feature name="Device.getBarcodeValue" required="true" />
+      <uses-feature name="Device.getCurrentPosition" required="true" />
+      <uses-feature name="Device.pickFile" required="true" />
+      <uses-feature name="Utility" required="true" />
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+    -->
+  </control>
+</manifest>
