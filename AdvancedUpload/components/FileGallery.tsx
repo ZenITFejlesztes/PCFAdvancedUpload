@@ -33,7 +33,7 @@ const FileGallery = ({hostHeight}:IProps) => {
         <HostContainer style={{height: hostHeight + "px"}} >
             <h5 style={{margin: "0px", marginBottom: ".3em", padding: "0px", textAlign: "center", boxSizing: "border-box", flex: "0 0 1.2em"}} > {`${ data.length } files selected`} </h5>
             <ListContainer>
-            { data.map(file => <GalleryItem filename={file.filename} filesize={file.filesize} /> ) }
+            { data.map(file => <GalleryItem  filename={file.filename} filesize={file.filesize} /> ) }
             </ListContainer>
         </HostContainer>
     )
