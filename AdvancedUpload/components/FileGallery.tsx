@@ -2,52 +2,46 @@ import React, { Fragment, useState } from "react";
 
 import styled from "styled-components";
 
+import shortid from "shortid";
+
 import GalleryItem from "./GalleryItem";
+
+interface FileWithID extends ComponentFramework.FileObject {
+    id: string;
+}
 
 interface IProps {
     hostHeight: number;
+    fileSelection: FileWithID[];
+    removeFile: (id: string) => any;
+    resetSelection: () => any;
 }
 
-const FileGallery = ({ hostHeight }: IProps) => {
+const FileGallery = ({ hostHeight, fileSelection, removeFile, resetSelection }: IProps) => {
     const [showDetails, setShowDetails] = useState(false);
     const [delayHandler, setDelayHandler] = useState<number>();
 
-    const data = [
-        { filename: "thing1", filesize: 25 },
-        { filename: "thing2", filesize: 27 },
-        { filename: "thing3", filesize: 12 },
-        { filename: "thing4", filesize: 167 },
-        { filename: "thing1", filesize: 25 },
-        { filename: "thingashdjashdkasdhkasdhks2", filesize: 27 },
-        { filename: "thing3", filesize: 12 },
-        { filename: "thing1", filesize: 25 },
-        { filename: "thing2", filesize: 27 },
-        { filename: "thing3", filesize: 12 },
-        { filename: "thing1", filesize: 25 },
-        { filename: "thing2", filesize: 27 },
-        { filename: "thing3", filesize: 12 },
-    ];
-
     const doOnMouseEnter = () => {
-        setDelayHandler(setTimeout(() => {
-            setShowDetails(true)
-        }, 1000))
-    }
+        setDelayHandler(
+            setTimeout(() => {
+                setShowDetails(true);
+            }, 1000)
+        );
+    };
 
     const doOnMouseLeave = () => {
-        setShowDetails(false)
-        clearTimeout(delayHandler)
-    }
-
+        setShowDetails(false);
+        clearTimeout(delayHandler);
+    };
 
     return (
         <HostContainer style={{ height: hostHeight + "px" }}>
             <HeaderContainer
-            onMouseEnter={doOnMouseEnter}
-            onMouseLeave={doOnMouseLeave}
-            style={{
-                flex: `0 0 ${ showDetails ? "2.4em" : "1.2em" }`
-            }}
+                onMouseEnter={doOnMouseEnter}
+                onMouseLeave={doOnMouseLeave}
+                style={{
+                    flex: `0 0 ${showDetails ? "2.4em" : "1.2em"}`,
+                }}
             >
                 <h5
                     style={{
@@ -59,17 +53,27 @@ const FileGallery = ({ hostHeight }: IProps) => {
                         boxSizing: "border-box",
                     }}
                 >
-                    {`${data.length} files selected`}
+                    {`${fileSelection.length} files selected`}
                 </h5>
                 <DetailsHolder>
-                    <ResetButton>RESET</ResetButton>
-                    <p style={{ margin: "0px", padding: "0px" }} > {"Total: " + "1367" + "kB"} </p>
+                    <ResetButton onClick={resetSelection}>RESET</ResetButton>
+                    <p style={{ margin: "0px", padding: "0px" }}>
+                        {" "}
+                        {"Total: " +
+                            Math.floor(fileSelection.reduce((sum, file) => sum + file.fileSize, 0) / 1000) +
+                            "kB"}{" "}
+                    </p>
                 </DetailsHolder>
-
             </HeaderContainer>
             <ListContainer>
-                {data.map((file) => (
-                    <GalleryItem filename={file.filename} filesize={file.filesize} />
+                {fileSelection.map((file) => (
+                    <GalleryItem
+                        key={shortid.generate()}
+                        filename={file.fileName}
+                        filesize={Math.floor(file.fileSize / 1000)}
+                        fileId={file.id}
+                        removeFile={removeFile}
+                    />
                 ))}
             </ListContainer>
         </HostContainer>
@@ -95,7 +99,7 @@ const HeaderContainer = styled.div`
     margin-bottom: 0.3em;
     padding: 0px;
     overflow: hidden;
-    transition: flex .2s ease;
+    transition: flex 0.2s ease;
     cursor: default;
 `;
 
@@ -103,25 +107,25 @@ const DetailsHolder = styled.div`
     font-size: 0.8em;
     box-sizing: border-box;
     margin: 0px;
-    padding: 0px .2em;
+    padding: 0px 0.2em;
     height: 1.5em;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-`
+`;
 
 const ResetButton = styled.p`
     margin: 0px;
-    padding: .1em .2em;
-    transition: all .1s ease;
+    padding: 0.1em 0.2em;
+    transition: all 0.1s ease;
     cursor: pointer;
     :hover {
         color: #ab3430;
         background: #0001;
         font-weight: bold;
     }
-`
+`;
 
 const ListContainer = styled.div`
     margin: 0px;

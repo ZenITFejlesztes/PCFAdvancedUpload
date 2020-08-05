@@ -23,6 +23,7 @@ export class AdvancedUpload implements ComponentFramework.StandardControl<IInput
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
 	{
         this.hostContainer = container;
+        this.context = context;
         // this.hostContainer.style.overflow = "hidden";
         this.topLVLContainer = this.hostContainer.parentElement?.parentElement?.parentElement?.parentElement || this.topLVLContainer;
         this.setHostSize();

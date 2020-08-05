@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo} from "react";
 
 import styled from "styled-components";
 
@@ -7,11 +7,19 @@ import { IconType } from "react-icons";
 interface IProps {
     displayText: string;
     icon: IconType;
+    addLocal: () => any;
 }
 
-const Button = ({ displayText, icon: TypeIcon }: IProps) => {
+const Button = ({ displayText, icon: TypeIcon, addLocal }: IProps) => {
+    const uploadHandler = useMemo(() => {
+        if (displayText == "Local") return addLocal
+        return () => null
+    }, [displayText])
+    
     return (
-        <Holder>
+        <Holder
+        onClick={uploadHandler}
+        >
             <TypeIcon 
                 color="white"
                 size="2.3em"

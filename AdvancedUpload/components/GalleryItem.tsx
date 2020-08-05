@@ -7,9 +7,11 @@ import styled from "styled-components";
 interface IProps {
     filename: string;
     filesize: number;
+    fileId: string;
+    removeFile: (id: string) => any;
 }
 
-const GalleryItem = ({ filename, filesize }: IProps) => {
+const GalleryItem = ({ filename, filesize, fileId, removeFile }: IProps) => {
     const [showDelete, setShowDelete] = useState(false);
     const [delayHandler, setDelayHandler] = useState<number>()
 
@@ -29,7 +31,8 @@ const GalleryItem = ({ filename, filesize }: IProps) => {
         onMouseEnter={doOnMouseEnter}
         onMouseLeave={doOnMouseLeave}
         >
-            <IconHolder 
+            <IconHolder
+            onClick={ e => removeFile(fileId) }
             style={{
                 width: `${ showDelete ? "2em" : "0px" }`
             }} 
