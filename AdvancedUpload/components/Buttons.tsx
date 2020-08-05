@@ -16,8 +16,8 @@ interface IProps {
 
 const Buttons = ({ selectionEmpty, setSelectionEmpty, addToSelectionLocal }: IProps) => {
     const options = [
-        { displayText: "Local", icon: AiOutlineUpload },
-        { displayText: "Sharepoint", icon: AiOutlineCloud },
+        { displayText: "Local", icon: AiOutlineUpload }
+        // { displayText: "Sharepoint", icon: AiOutlineCloud },
     ];
     return (
         <ButtonContainer

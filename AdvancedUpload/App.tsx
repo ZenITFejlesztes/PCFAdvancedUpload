@@ -1,4 +1,4 @@
-import React, { useState, useRef, MutableRefObject } from "react";
+import React, { useState, useRef, MutableRefObject, useEffect } from "react";
 
 import styled from "styled-components";
 
@@ -13,12 +13,22 @@ interface FileWithID extends ComponentFramework.FileObject {
     id: string;
 }
 
-const App = ({hostContainer, context}: RProps) => {
+const App = ({hostContainer, context, setOutputs, notifyOutputChanged: emmitChange}: RProps) => {
     const pickFile = context.device.pickFile;
 
     const sizeRef = useRef() as MutableRefObject<HTMLDivElement>
     const [selectionEmpty, setSelectionEmpty] = useState(true);
     const [selection, setSelection] = useState<FileWithID[]>([]);
+
+    // constantly refresh outputs
+    useEffect(() => {
+        setOutputs({
+            xFileNamesOut: selection.map(file => file.fileName).map(fN => fN.replace(/ /g, "_")).reduce((tot, fN) => tot + " " + fN, ""),
+            xFileContentsOut: selection.map(file => file.fileContent).reduce((tot, fC) => tot + " " + fC, ""),
+            xFileContentTypesOut: selection.map(file => file.mimeType).reduce((tot, mT) => tot + " " + mT, "")
+        }, false);
+        emmitChange()
+    }, [selection])
 
     const addToSelectionFromLocal = async () => {
         const files = await pickFile({

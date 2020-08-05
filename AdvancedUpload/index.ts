@@ -14,7 +14,7 @@ export class AdvancedUpload implements ComponentFramework.StandardControl<IInput
     private notifyOutputChanged: () => void;
     private iinputs: IInputs;
     private inputs: RInputs;
-    private outputs: IOutputs;
+    public outputs: IOutputs;
 
     private fontSize: number;
     private maxFontsize: number = 16;
@@ -24,6 +24,7 @@ export class AdvancedUpload implements ComponentFramework.StandardControl<IInput
 	{
         this.hostContainer = container;
         this.context = context;
+        this.notifyOutputChanged = notifyOutputChanged;
         // this.hostContainer.style.overflow = "hidden";
         this.topLVLContainer = this.hostContainer.parentElement?.parentElement?.parentElement?.parentElement || this.topLVLContainer;
         this.setHostSize();
@@ -51,12 +52,12 @@ export class AdvancedUpload implements ComponentFramework.StandardControl<IInput
         ReactDOM.unmountComponentAtNode(this.hostContainer);
     }
     
-    private setHostSize(): void {
+    private setHostSize = (): void => {
         this.hostContainer.style.width = this.topLVLContainer.offsetWidth + "px"
         this.hostContainer.style.height = this.topLVLContainer.offsetHeight + "px"
     }
 
-    private setFontsize(): void {
+    private setFontsize = (): void => {
         this.fontSize = Math.min(
             Math.floor(this.hostContainer.offsetWidth / 10),
             Math.floor(this.hostContainer.offsetHeight * 0.9),
@@ -65,7 +66,7 @@ export class AdvancedUpload implements ComponentFramework.StandardControl<IInput
         this.hostContainer.style.fontSize = this.fontSize + "px";
     }
 
-    private refreshInputs(): void {
+    private refreshInputs = (): void => {
         this.iinputs = {
         }
         this.inputs = {
@@ -73,11 +74,11 @@ export class AdvancedUpload implements ComponentFramework.StandardControl<IInput
         // this.maxFontsize = this.iinputs.maxFontSize.raw || this.maxFontsize
     }
 
-    private setOutputs (newOutputs: IOutputs, resetAll: boolean): void {
+    public setOutputs = (newOutputs: IOutputs, resetAll: boolean): void => {
         resetAll ? this.outputs = newOutputs : this.outputs = { ...this.outputs, ...newOutputs }
     }
 
-    private renderDOM(): void {
+    private renderDOM = (): void => {
         const props: RProps = {
             context: this.context,
             notifyOutputChanged: this.notifyOutputChanged,
