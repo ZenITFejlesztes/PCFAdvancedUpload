@@ -21,7 +21,11 @@ const App = (props: RProps) => {
     const [selection, setSelection] = useState<FileWithID[]>([]);
 
     const addToSelectionFromLocal = async () => {
-        const files = await pickFile();
+        const files = await pickFile({
+            accept: "",
+            allowMultipleFiles: true,
+            maximumAllowedFileSize: 21000000
+        });
         setSelection((sel) => [
             ...sel,
             ...files
