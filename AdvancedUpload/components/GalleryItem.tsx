@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 
 import { AiOutlineDelete } from "react-icons/ai";
 
@@ -11,71 +11,93 @@ interface IProps {
 
 const GalleryItem = ({ filename, filesize }: IProps) => {
     const [showDelete, setShowDelete] = useState(false);
+    const [delayHandler, setDelayHandler] = useState<number>()
+
+    const doOnMouseEnter = () => {
+        setDelayHandler(setTimeout(() => {
+            setShowDelete(true)
+        }, 500))
+    }
+
+    const doOnMouseLeave = () => {
+        setShowDelete(false)
+        clearTimeout(delayHandler)
+    }
 
     return (
-        <div
-            style={{
-                position: "relative",
-                display: "grid",
-                gridTemplateColumns: `${showDelete ? "15%" : "0px"} ${showDelete ? "85%" : "100%"}`,
-            }}
-            onClick={(e) => setShowDelete(!showDelete)}
+        <FileRow
+        onMouseEnter={doOnMouseEnter}
+        onMouseLeave={doOnMouseLeave}
         >
-            <div
-                style={{
-                    width: `${showDelete ? "2em" : "0px"}`,
-                    height: "2em",
-                    placeItems: "center",
-                    overflow: "hidden",
-                    cursor: "pointer"
-                }}
+            <IconHolder 
+            style={{
+                width: `${ showDelete ? "2em" : "0px" }`
+            }} 
             >
-                <AiOutlineDelete color="#a30808" size="2em" />
-            </div>
-            <ListItem
-                style={{
-                    position: "relative",
-                    height: "2em",
-                }}
+                <AiOutlineDelete 
+                style={{ transform: "translateY(.1em)" }}
+                />
+            </IconHolder>
+            <DataHolder
+            style={{
+                width: `${ showDelete ? "calc(100% - 2em)" : "100%" }`
+            }}
             >
-                <span
-                    style={{
-                        position: "absolute",
-                        height: "100%",
-                        left: "0px",
-                        top: "0px",
-                        padding: "0px .3em",
-                        lineHeight: "2em",
-                        maxWidth: "70%",
-                        overflowX: "hidden",
-                        whiteSpace: "nowrap",
-                        textOverflow: "ellipsis"
-                    }}
-                >
-                    {filename}
-                </span>
-                <span
-                    style={{
-                        position: "absolute",
-                        height: "100%",
-                        right: "0px",
-                        top: "0px",
-                        padding: "0px .3em",
-                        lineHeight: "2em",
-                    }}
-                >
-                    {filesize + " Kb"}
-                </span>
-            </ListItem>
-        </div>
+                <p style={{
+                    overflowX: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    textAlign: "left",
+                    margin: "0px"
+                }} > {filename} </p>
+                <p style={{
+                    margin: "0px"
+                }} > {filesize + "kB"} </p>
+            </DataHolder>
+        </FileRow>
     );
 };
 
 export default GalleryItem;
 
-const ListItem = styled.div`
-    transition: background 0.1s ease-out;
+
+const FileRow = styled.div`
+    width: 100%;
+    height: 2em;
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+`
+
+const IconHolder = styled.div`
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    display: inline-grid;
+    place-items: center;
+    height: 100%;
+    width: 2em;
+    cursor: pointer;
+    overflow: hidden;
+    transition: width .2s ease-out,
+                color .2s ease-out,
+                transform .2s ease-out;
+    color: white;
     :hover {
-        background: #fff1;
+        color: #ab3430;
+        transform: scale(1.3);
     }
-`;
+    
+`
+
+const DataHolder = styled.div`
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: width .2s ease-out;
+    cursor: default;
+`
