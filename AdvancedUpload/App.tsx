@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, MutableRefObject } from "react";
 
 import styled from "styled-components";
 
@@ -13,10 +13,10 @@ interface FileWithID extends ComponentFramework.FileObject {
     id: string;
 }
 
-const App = (props: RProps) => {
-    const { hostContainer, context } = props;
+const App = ({hostContainer, context}: RProps) => {
     const pickFile = context.device.pickFile;
 
+    const sizeRef = useRef() as MutableRefObject<HTMLDivElement>
     const [selectionEmpty, setSelectionEmpty] = useState(true);
     const [selection, setSelection] = useState<FileWithID[]>([]);
 
@@ -46,10 +46,10 @@ const App = (props: RProps) => {
     };
 
     return (
-        <ContainerBox>
+        <ContainerBox ref={sizeRef} >
             <ListHolder>
                 <FileGallery
-                    hostHeight={hostContainer.getBoundingClientRect().height}
+                    hostHeight={ sizeRef?.current?.clientHeight || hostContainer.clientHeight }
                     fileSelection={selection}
                     removeFile={removeItemFromSelection}
                     resetSelection={resetSelection}

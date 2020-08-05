@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, MutableRefObject } from "react";
 
 import styled from "styled-components";
 
@@ -84,7 +84,6 @@ export default FileGallery;
 
 const HostContainer = styled.div`
     width: 100%;
-    height: 100%;
     margin: 0px;
     padding: 0.3em;
     color: white;

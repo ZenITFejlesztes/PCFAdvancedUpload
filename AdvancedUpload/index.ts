@@ -38,7 +38,6 @@ export class AdvancedUpload implements ComponentFramework.StandardControl<IInput
         this.setHostSize();
         this.refreshInputs();
         this.setFontsize();
-
         this.renderDOM()
     }
 
